@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/noto-serif-tc':
+        specifier: ^5.1.1
+        version: 5.1.1
+      '@fontsource-variable/roboto-mono':
+        specifier: ^5.1.0
+        version: 5.1.0
       astro:
         specifier: ^5.1.1
         version: 5.1.1(jiti@2.4.2)(rollup@4.29.1)(typescript@5.7.2)
@@ -332,6 +338,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource-variable/noto-serif-tc@5.1.1':
+    resolution: {integrity: sha512-Hk7zDA1Gqs+pRCOnVCERSaH2lE1JIkFjuP3caLtdjsEPpeCqAsOuJkzmuBDB23fnlsCH+2ZlOuQ6oTpmLXcdsA==}
+
+  '@fontsource-variable/roboto-mono@5.1.0':
+    resolution: {integrity: sha512-87USlDpEi7dS/ayPXwf/08vdgJKEYxdQmuZk5kCzWBtumimdwWlA9Vh36TCtYqFC+dGgDxPX/4PJK+0lxkEd5A==}
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -2044,6 +2056,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.24.0':
     optional: true
+
+  '@fontsource-variable/noto-serif-tc@5.1.1': {}
+
+  '@fontsource-variable/roboto-mono@5.1.0': {}
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
