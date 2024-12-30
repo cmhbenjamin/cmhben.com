@@ -1,21 +1,48 @@
-html{
+/* html{
   background-color: rgb(18, 19, 22);
-  /* font-family: "noto-serif-tc"; */
   font-family: 'Roboto Mono Variable', monospace;
   color: rgb(201, 194, 189);
   font-weight: 300;
-}
+} */
 
-h1 {
+/* h1 {
   color: rgb(213, 158, 18);
   font-weight: bold;
-}
+} */
 
-body {
+/* body {
   margin: 0 auto;
   width: 100%;
   max-width: 80ch;
   padding: 1.2rem;
   line-height: 2;
   font-size: 1.1rem;
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html{
+    @apply bg-stone-900;
+    /* font */
+    font-family: 'Roboto Mono Variable', monospace;
+    @apply text-gray-50 font-light;
+  }
+  h1 {
+    @apply text-2xl;
+    @apply text-yellow-200;
+    @apply font-bold;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  body{
+  @apply flex flex-row ;
+  max-width: 80ch;
+  @apply p-5 mx-auto mb-40 mt-20;
+  @apply leading-8;
+  } 
+
 }

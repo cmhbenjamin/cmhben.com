@@ -1,28 +1,19 @@
 ---
+const pathname =Astro.url.pathname;
+
 ---
-<style>
-  .nav-links {
-    
-    /* justify-content: space-between;
-    padding: 1rem;
-    display: flex */
-  }
 
-  .nav-links a {
-    color: #333;
-    font-weight: 600;
-    display: block;
-  }
-
-  .nav-links a:hover {
-    color: #0070f3;
-  }
-</style>
-<div class ="nav-links">
+<nav class ="flex flex-col">
+  <!-- {[
+    ['About', '/about'],
+    ['Reel & Resume', '/resume'],
+    ['Posts', '/posts'],
+  ].map(([title, url]) => (
+    <a href={url} class={pathname ==={title}?"":""}>{title}</a>
+  ))} -->
   <!-- <a href="/">Home</a> -->
-  <a href="/about/">About</a>
-  <a href="/projects">Projects</a>
-  <a href="/resume/">Resume</a>
-  <a href="/tags">Articles</a>
-</div>
+  <a href="/about" class={pathname ==="/about"?"underline":""}>About</a>
+  <a href="/resume"class={pathname ==="/resume"?"underline":""}>Resume & Reel</a>
+  <a href="/posts"class={pathname ==="/posts"?"underline":""}>Post</a>
+</nav>
 

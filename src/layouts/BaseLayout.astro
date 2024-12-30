@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import Navigation from "../components/Navigation.astro";
 import '@fontsource-variable/roboto-mono';
 
 import '../styles/global.css';
@@ -8,7 +9,8 @@ const {pageTitle} = Astro.props;
 ---
 <style>
   /* .content {
-    display: flex;
+    display: inline-block;
+    width: 400px;
   } */
 </style>
 <html>
@@ -19,11 +21,17 @@ const {pageTitle} = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
-  <body>
-    <Header />
-    <h1>{pageTitle}</h1>
-    <div class="content">
-    <slot />
+  <body class="flex-col">
+    <div class ="flex w-full">
+    <Header pageTitle={pageTitle} />
+    </div>
+    <div class="flex">
+      <aside class="basis-1/4">
+        <Navigation />
+      </aside>
+      <div class="basis-3/4">
+        <slot />
+      </div>
     </div>
   </body>
 </html>
