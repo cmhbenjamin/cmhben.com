@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Navigation from "../components/Navigation.astro";
+import Footer from '../components/Footer.astro';
 import '@fontsource-variable/roboto-mono';
 
 import '../styles/global.css';
@@ -22,15 +23,23 @@ const {pageTitle} = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body class="flex-col">
-    <div class ="flex w-full">
-    <Header pageTitle={pageTitle} />
-    </div>
+    
     <div class="flex">
       <aside class="basis-1/4">
         <Navigation />
       </aside>
-      <div class="basis-3/4">
-        <slot />
+      <div class="basis-3/4 flex-row gap-5">
+        <div class="h-10">
+          <h1 class="self-end text-lg">Benjamin Chan</h1>
+        </div>
+        <div class="mb-6"/>
+        <div class=" leading-8 text-base font-light text-gray-50">
+          <slot />
+        </div>
+        <div class="mb-8"/>
+        <footer class="text-sm flex justify-between items-center">
+          <Footer />
+        </footer>
       </div>
     </div>
   </body>

@@ -25,24 +25,25 @@
 
 @layer base {
   html{
-    @apply bg-stone-900;
+    @apply bg-gray-900;
     /* font */
     font-family: 'Roboto Mono Variable', monospace;
-    @apply text-gray-50 font-light;
+    @apply text-gray-400 font-medium;
+    @apply antialiased
   }
   h1 {
-    @apply text-2xl;
-    @apply text-yellow-200;
-    @apply font-bold;
+    @apply text-xl;
+    /* @apply text-orange-700; */
+    @apply font-bold tracking-widest text-sm;
   }
   h2 {
-    @apply text-xl;
+    @apply text-base;
   }
   body{
   @apply flex flex-row ;
   max-width: 80ch;
   @apply p-5 mx-auto mb-40 mt-20;
-  @apply leading-8;
+
   } 
 
 }
