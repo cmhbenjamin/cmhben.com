@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Navigation from "../components/Navigation.astro";
 import Footer from '../components/Footer.astro';
 import '@fontsource-variable/roboto-mono';
+import '@fontsource-variable/montserrat';
 
 import '../styles/global.css';
 
@@ -22,22 +23,22 @@ const {pageTitle} = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
-  <body class="flex-col">
+  <body class="py-6 px-4 sm:p-6 md:py-20 md:px-8">
     
-    <div class="flex">
-      <aside class="basis-1/4">
-        <Navigation />
-      </aside>
-      <div class="basis-3/4 flex-row gap-5">
-        <div class="h-10">
-          <h1 class="self-end text-lg">Benjamin Chan</h1>
+    <div class="w-full md:max-w-4xl md:mx-auto flex flex-col md:flex-row">
+        <nav class ="md:w-1/4 flex flex-row items-center md:items-baseline md:flex-col gap-4 text-sm font-normal">
+          <Navigation />
+        </nav>
+      <div class="md:w-3/4 flex-row gap-5">
+        <div class="px-2 md:px-0">
+        <div class="h-10 flex mb-6">
+          <h1 class="self-end text-xl font-extrabold tracking-wide">Benjamin Chan</h1>
         </div>
-        <div class="mb-6"/>
-        <div class=" leading-8 text-base font-light text-gray-50">
+        <div class="flex-row leading-8 text-base font-normal text-gray-200 font-sans antialiased">
           <slot />
         </div>
-        <div class="mb-8"/>
-        <footer class="text-sm flex justify-between items-center">
+      </div>
+        <footer class="pt-6 md:pt-32 text-sm flex justify-between items-center">
           <Footer />
         </footer>
       </div>

@@ -28,22 +28,13 @@
     @apply bg-gray-900;
     /* font */
     font-family: 'Roboto Mono Variable', monospace;
-    @apply text-gray-400 font-medium;
+    @apply text-gray-500 font-medium;
     @apply antialiased
-  }
-  h1 {
-    @apply text-xl;
-    /* @apply text-orange-700; */
-    @apply font-bold tracking-widest text-sm;
-  }
-  h2 {
-    @apply text-base;
   }
   body{
   @apply flex flex-row ;
-  max-width: 80ch;
-  @apply p-5 mx-auto mb-40 mt-20;
-
+  /* max-width: 100ch; */
+  /* @apply p-5 mx-auto mb-40 mt-20; */
   } 
 
 }
