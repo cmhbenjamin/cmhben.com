@@ -1,24 +1,3 @@
-/* html{
-  background-color: rgb(18, 19, 22);
-  font-family: 'Roboto Mono Variable', monospace;
-  color: rgb(201, 194, 189);
-  font-weight: 300;
-} */
-
-/* h1 {
-  color: rgb(213, 158, 18);
-  font-weight: bold;
-} */
-
-/* body {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 80ch;
-  padding: 1.2rem;
-  line-height: 2;
-  font-size: 1.1rem;
-} */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -36,5 +15,19 @@
   /* max-width: 100ch; */
   /* @apply p-5 mx-auto mb-40 mt-20; */
   } 
+  .content{
+    h1{
+    @apply text-2xl my-2 font-bold;
+    }
+    h2 {
+      @apply text-xl my-1 font-bold;
+    }
+    h3 {
+      @apply text-lg;
+    }
+    p{
+      @apply text-base font-normal leading-relaxed;
+    }
+  }
 
 }
