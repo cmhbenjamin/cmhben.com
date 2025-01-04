@@ -1,6 +1,7 @@
 ---
 import { getCollection, render} from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Lastmod from '../components/lastmod.astro';
 
 
 
@@ -12,11 +13,11 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-console.log(post);
 const { Content } = await render(post);
-console.log(Content);
-// const { Content } = await render(post);
+
 ---
 <BaseLayout frontmatter={post.data}>
+
 <Content />
+<Lastmod class="my-10" date={post.data.lastmod} show={post.data.showdate} />
 </BaseLayout>

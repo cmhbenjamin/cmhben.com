@@ -22,6 +22,8 @@ const pages = defineCollection({
     schema: z.object({
       title: z.string(),
       lastmod: z.date(),
+      nav:z.boolean(),
+      showdate:z.boolean(),
     })
 });
 // Export a single `collections` object to register your collection(s)

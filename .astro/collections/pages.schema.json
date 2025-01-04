@@ -23,13 +23,21 @@
             }
           ]
         },
+        "nav": {
+          "type": "boolean"
+        },
+        "showdate": {
+          "type": "boolean"
+        },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
         "title",
-        "lastmod"
+        "lastmod",
+        "nav",
+        "showdate"
       ],
       "additionalProperties": false
     }

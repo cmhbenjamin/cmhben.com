@@ -52,7 +52,12 @@
           "name": "heroImage",
           "type": "image",
           "isPreviewImage": true
-        }
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
+        },
       ]
     },
     {
@@ -69,6 +74,11 @@
           "single": true
         },
         {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
           "title": "Last modified date",
           "name": "lastmod",
           "type": "datetime",
@@ -76,12 +86,27 @@
           "isModifiedDate": true
         },
         {
-          "title": "On navigation",
+          "title": "Show on navigation bar",
           "name": "nav",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Show date",
+          "name": "showdate",
           "type": "boolean",
           "default": true
         }
       ]
     }
-  ]
+  ],
+  "frontMatter.custom.scripts": [
+    {
+      "title": "Convert image to webp",
+      "script": "./scripts/convert-image-to-webp.mjs",
+      "command": "~/.local/share/fnm/node-versions/v22.12.0/installation/bin/node",
+      "type": "mediaFile"
+    }
+  ],
+
 }

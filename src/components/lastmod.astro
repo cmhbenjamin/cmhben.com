@@ -1,0 +1,10 @@
+---
+const { date ,show } =  Astro.props;
+
+const dateobj = new Date(date);
+const datestr = dateobj.toLocaleDateString()
+
+---
+<div class={show?"block":"hidden"}>
+  <div class="text-xs font-mono font-thin text-right my-3">Last updated: {datestr}</div>
+</div>

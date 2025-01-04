@@ -16,18 +16,37 @@
   /* @apply p-5 mx-auto mb-40 mt-20; */
   } 
   .content{
+    
     h1{
-    @apply text-2xl my-2 font-bold;
+      @apply text-4xl mt-4 mb-2 font-bold text-gray-200;
     }
     h2 {
-      @apply text-xl my-1 font-bold;
+      @apply text-2xl mt-3 mb-0 font-semibold;
     }
     h3 {
-      @apply text-lg;
+      @apply text-sm my-1 font-medium text-gray-500;
     }
     p{
       @apply text-base font-normal leading-relaxed;
+      
     }
+    ul{
+      @apply list-disc ml-5;
+    }
+    ol{
+      @apply list-decimal ml-5;
+    }
+    hr{
+      @apply my-5 -mx-8;
+    }
+    a{
+      @apply underline;
+      @apply hover:text-orange-300;
+    }
+    .emoji{
+      @apply inline;
+    }
+    @apply leading-8 text-base font-normal text-gray-300 font-sans antialiased;
   }
 
 }
