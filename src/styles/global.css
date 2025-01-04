@@ -18,16 +18,16 @@
   .content{
     
     h1{
-      @apply text-4xl mt-4 mb-2 font-bold text-gray-200;
+      @apply text-4xl mt-2 mb-2 font-bold text-gray-200;
     }
     h2 {
-      @apply text-2xl mt-3 mb-0 font-semibold;
+      @apply text-2xl mt-1 mb-0 font-semibold;
     }
     h3 {
       @apply text-sm my-1 font-medium text-gray-500;
     }
     p{
-      @apply text-base font-normal leading-relaxed;
+      @apply text-base font-normal leading-relaxed mb-2.5;
       
     }
     ul{
@@ -45,6 +45,10 @@
     }
     .emoji{
       @apply inline;
+    }
+    blockquote{
+      @apply p-4 rounded-lg pl-8 my-4;
+      @apply bg-gray-800 text-gray-300;
     }
     @apply leading-8 text-base font-normal text-gray-300 font-sans antialiased;
   }
