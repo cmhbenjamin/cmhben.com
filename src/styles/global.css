@@ -21,27 +21,34 @@
       @apply text-4xl mt-2 mb-2 font-bold text-gray-200;
     }
     h2 {
-      @apply text-2xl mt-1 mb-0 font-semibold;
+      @apply text-2xl mt-4 mb-0.5 font-semibold;
     }
     h3 {
       @apply text-sm my-1 font-medium text-gray-500;
     }
     p{
-      @apply text-base font-normal leading-relaxed mb-2.5;
-      
+      @apply text-sm font-normal leading-relaxed mb-2.5;
+
     }
     ul{
-      @apply list-disc ml-5;
+      @apply text-sm list-disc ml-5 mb-2;
+      list-style-type: revert;
+      li::marker{
+        @apply text-indigo-500;
+      }
     }
     ol{
-      @apply list-decimal ml-5;
+      @apply text-sm list-decimal ml-5 mb-1;
+      list-style-type: revert;
     }
+    
     hr{
       @apply my-5 -mx-8;
     }
     a{
       @apply underline;
       @apply hover:text-orange-300;
+      @apply text-orange-400;
     }
     .emoji{
       @apply inline;
@@ -50,7 +57,22 @@
       @apply p-4 rounded-lg pl-8 my-4;
       @apply bg-gray-800 text-gray-300;
     }
-    @apply leading-8 text-base font-normal text-gray-300 font-sans antialiased;
+    code{
+      @apply text-xs;
+    }
+    .footnotes{
+      @apply mt-10 border-t-0 pt-1;
+      #footnote-label{
+        @apply hidden;
+      }
+    }
+    th{
+      @apply font-medium;
+    }
+    td{
+      @apply pr-2;
+    }
+    @apply leading-8 text-sm font-normal text-gray-300 font-sans antialiased;
   }
 
 }

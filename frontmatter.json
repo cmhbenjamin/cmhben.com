@@ -16,9 +16,9 @@
   ],
   "frontMatter.taxonomy.contentTypes": [
     {
-      "name": "default",
+      "name": "blog",
       "pageBundle": false,
-      "previewPath": "'blog'",
+      "previewPath": "''",
       "filePrefix": null,
       "clearEmpty": true,
       "fields": [
@@ -58,6 +58,11 @@
           "name": "tags",
           "type": "tags"
         },
+        {
+          "title": "fmContentType",
+          "name": "fmContentType",
+          "type": "string"
+        }
       ]
     },
     {
@@ -107,6 +112,5 @@
       "command": "~/.local/share/fnm/node-versions/v22.12.0/installation/bin/node",
       "type": "mediaFile"
     }
-  ],
-
+  ]
 }

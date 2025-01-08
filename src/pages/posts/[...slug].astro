@@ -1,0 +1,23 @@
+---
+import { getCollection, render} from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Lastmod from '../../components/lastmod.astro';
+
+
+
+export async function getStaticPaths() {
+  const pages = await getCollection('blog');
+  return pages.map(post => ({
+    params: { slug: post.id }, props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+---
+<BaseLayout frontmatter={post.data}>
+
+<Content />
+<Lastmod class="my-10" date={post.data.lastmod} show="True" />
+</BaseLayout>
