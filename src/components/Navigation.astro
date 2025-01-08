@@ -3,6 +3,7 @@ const pathname =Astro.url.pathname;
 import { getCollection } from "astro:content";
 const allPosts = await getCollection("pages");
 const allPosts_filtered = allPosts.filter((post: any) => post.data.nav=== true);
+console.log(allPosts)
 ---
 <div class="md:mb-4">
   <a href="/" class={pathname ==="/"?"underline text-orange-600":" hover:text-orange-300"}>
@@ -13,7 +14,7 @@ const allPosts_filtered = allPosts.filter((post: any) => post.data.nav=== true);
 </div>
 
 {allPosts_filtered.map((post) => (
-<a href={'/' + (post.data.title).toLowerCase()} class={pathname === '/' +(post.data.title).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300"}>
+<a href={'/' + (post.id).toLowerCase()} class={pathname === '/' +(post.data.title).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300"}>
   {post.data.title}
 </a>
 ))}
