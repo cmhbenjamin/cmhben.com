@@ -1,0 +1,38 @@
+---
+title: ffmpeg cheatsheet
+pubDate: 2025-01-08T20:38:15.371Z
+lastmod: 2025-01-08T20:38:16.024Z
+fmContentType: blog
+description: Cheat sheet for using ffmpeg to convert files, video to frames, frames to video
+tags:
+  - ffmpeg
+  - script
+---
+```bash
+video to gif
+ffmpeg  -i invideo.mp4 -vf "palettegen" -y out_palette.png
+ffmpeg  -i invideo.mp4 -i out_palette.png -lavfi "paletteuse" -y out.gif
+
+
+pic to h.264 mp4
+ffmpeg -r 60 -f image2 -s 1920x1080 -i pic%04d.png -vcodec libx264 -crf 25  -pix_fmt yuv420p test.mp4
+-r is the framerate (fps)
+-crf is the quality, lower means better quality, 15-25 is usually good
+-s is the resolution
+-pix_fmt yuv420p specifies the pixel format, change this as needed
+
+show list of supported codecs:
+ffmpeg -codecs
+ffmpeg -formats
+
+multithreading
+use all threads
+-threads 0
+
+ffmpeg -i jumper_breakdown.mov -r 24 -vcodec libx264 -crf 16 -pix_fmt yuv420p -c:a libfdk_aac -b:a 320k -vbr 3 -threads 0 jumper_breakdown_low.mov
+
+
+ffmpeg -f image2 -start_number 1480 -i electric_v1.%d.png -vf "palettegen" -y out_platette.png
+
+ffmpeg -i byProcessionBreakdown.mov -r 24 -vcodec libx264 -crf 25 -pix_fmt yuv420p -threads 0 byProcessionBreakdown_low.mov
+```

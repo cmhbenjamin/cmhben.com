@@ -56,13 +56,9 @@
         {
           "title": "Tags",
           "name": "tags",
-          "type": "tags"
+          "type": "tags",
+          "default": "",
         },
-        {
-          "title": "fmContentType",
-          "name": "fmContentType",
-          "type": "string"
-        }
       ]
     },
     {
@@ -81,7 +77,8 @@
         {
           "title": "Description",
           "name": "description",
-          "type": "string"
+          "type": "string",
+          "default": "",
         },
         {
           "title": "Last modified date",
