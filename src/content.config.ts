@@ -22,5 +22,19 @@ const pages = defineCollection({
       showdate:z.boolean(),
     })
 });
+const works = defineCollection({
+    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/work" }),
+    schema:({ image }) => z.object({
+      title: z.string(),
+      description: z.string(),
+      releaseYear:z.number(),
+      studio: z.string(),
+      visible:z.boolean(),
+      order:z.number(),
+      image:image()
+      
+    })
+});
+
 // Export a single `collections` object to register your collection(s)
-export const collections = { blog, pages };
+export const collections = { blog, pages, works };

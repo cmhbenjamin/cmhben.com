@@ -1,0 +1,46 @@
+---
+const pathname =Astro.url.pathname;
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+const allWorks = await getCollection("works");
+const allWorks_filtered = allWorks.filter((work: any) => work.data.visible== true);
+const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.order);
+console.log(allWorks_ordered)
+---
+
+<div class="grid grid-cols-2">
+{
+  allWorks_ordered.map((work) => (
+    
+    <div class="relative group text-center overflow-hidden">
+    <a href={'/works/'+(work.id).toLowerCase()}>
+      <Image src={work.data.image} alt={work.data.title} class="object-cover w-full h-full transform transition-transform duration-500 group-hover:scale-110"/>
+      <div class="flex flex-col justify-center absolute inset-0 bg-black opacity-0 hover:opacity-100 hover:bg-opacity-80 transition duration-200 ease-in-out">
+        <h2>{work.data.title}</h2>
+        <h3>{work.data.description}</h3>
+      </div>
+      {/* <div class="absolute inset-0 bg-black opacity-0 hover:opacity-100 hover:bg-opacity-80 transition duration-200 ease-in-out">
+        <h2 class="absolute text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          {work.data.title}
+        </h2>
+        <h3 class="absolute text-amber-600 bottom-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          {work.data.description}
+        </h3>
+      </div> */}
+    </a>
+    </div>
+    
+  ))
+}
+</div>
+
+{/* <a href={'/' + (post.id).toLowerCase()} class={pathname === '/' +(post.data.title).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300"}>
+  {post.data.title}
+</a> */}
+
+  
+  <!-- <a href="/about" class={pathname ==="/about"?"underline text-orange-600":"hover:font-bold hover:text-orange-300"}>About</a>
+  <a href="/resume"class={pathname ==="/resume"?"underline  text-orange-600":"hover:font-bold hover:text-orange-300"}>Reel & Résumé</a>
+  <a href="/posts"class={pathname ==="/posts"?"underline text-orange-600":"hover:font-bold hover:text-orange-300"}>Post</a>
+  <a href="/now"class={pathname ==="/now"?"underline text-orange-600":"hover:font-bold hover:text-orange-300"}>Now</a></ul> -->
+

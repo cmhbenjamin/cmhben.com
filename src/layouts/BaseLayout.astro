@@ -17,25 +17,25 @@ const { title,lastmod,nav,showdate } = Astro.props.frontmatter;
     <meta name="generator" content={Astro.generator} />
     <title>{ title }</title>
   </head>
-  <body class="py-6 px-4 sm:p-6 md:py-20 md:px-8">
-    
-    <div class="w-full md:max-w-4xl md:mx-auto flex flex-col md:flex-row">
+  <body class="py-6 px-4 sm:p-6 md:py-10 md:px-8 flex-col">
+    <div class="w-full md:max-w-8xl md:mx-auto flex flex-col md:flex-row">
         <nav class ="md:w-1/5 flex flex-row items-center md:items-baseline md:flex-col gap-4 text-sm font-normal">
           <Navigation />
         </nav>
       <div class="md:w-4/5 flex-row gap-5">
         <div class="px-2 md:px-0">
-        <div class="h-10 flex mb-6">
-          <h1 class="self-end text-xl font-extrabold tracking-wide">Benjamin Chan</h1>
-        </div>
-        <div class="content flex-row md:max-w-xl">
-          <slot />
+          <!-- <div class="h-10 flex mb-6">
+            <h1 class="self-end text-xl font-extrabold tracking-wide">Benjamin Chan</h1>
+          </div> -->
+          <div class="content flex-row md:max-w-5xl">
+            <slot />
+          </div>
         </div>
       </div>
-        <footer class="pt-6 md:pt-32 text-sm flex justify-between items-center">
-          <Footer />
-        </footer>
-      </div>
+      
     </div>
+    <!-- <footer class="w-full pt-6 md:pt-32 text-sm flex justify-normal items-center">
+      <Footer />
+    </footer> -->
   </body>
 </html>

@@ -1,9 +1,10 @@
 ---
 const pathname =Astro.url.pathname;
 import { getCollection } from "astro:content";
+import Social from "./Social.astro";
 const allPosts = await getCollection("pages");
 const allPosts_filtered = allPosts.filter((post: any) => post.data.nav=== true);
-console.log(allPosts)
+// console.log(allPosts)
 ---
 <div class="md:mb-4">
   <a href="/" class={pathname ==="/"?"underline text-orange-600":" hover:text-orange-300"}>
@@ -13,16 +14,16 @@ console.log(allPosts)
   </a>
 </div>
 
+<div class=""> Benjamin Chan</div>
 {allPosts_filtered.map((post) => (
-<a href={'/' + (post.id).toLowerCase()} class={pathname === '/' +(post.data.title).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300"}>
+<a href={'/' + (post.id).toLowerCase()} class={pathname === '/' +(post.data.title).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300 transition-colors"}>
   {post.data.title}
 </a>
 ))}
 
+<div class="mt-4">
+  <Social />
+  <p class="mt-2 text-xs">© 2025 Benjamin Chan</p>
+</div>
 
-  
-  <!-- <a href="/about" class={pathname ==="/about"?"underline text-orange-600":"hover:font-bold hover:text-orange-300"}>About</a>
-  <a href="/resume"class={pathname ==="/resume"?"underline  text-orange-600":"hover:font-bold hover:text-orange-300"}>Reel & Résumé</a>
-  <a href="/posts"class={pathname ==="/posts"?"underline text-orange-600":"hover:font-bold hover:text-orange-300"}>Post</a>
-  <a href="/now"class={pathname ==="/now"?"underline text-orange-600":"hover:font-bold hover:text-orange-300"}>Now</a></ul> -->
 
