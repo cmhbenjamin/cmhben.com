@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 const allWorks = await getCollection("works");
 const allWorks_filtered = allWorks.filter((work: any) => work.data.visible== true);
 const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.order);
-console.log(allWorks_ordered)
+// console.log(allWorks_ordered)
 ---
 
 <div class="grid grid-cols-2">
