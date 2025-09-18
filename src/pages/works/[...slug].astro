@@ -2,7 +2,8 @@
 import { getCollection, render} from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Lastmod from '../../components/lastmod.astro';
-
+import Prose from '../../components/Prose.astro';
+import Sidebar from '../../components/Sidebar.astro';
 
 
 export async function getStaticPaths() {
@@ -13,12 +14,17 @@ export async function getStaticPaths() {
 }
 
 const { work } = Astro.props;
-const { Content } = await render(work);
+const { Content, headings} = await render(work);
+
+
 
 ---
 <BaseLayout frontmatter={work.data}>
 <h1>{work.data.title} </h1>
+<Sidebar {headings} />
+<Prose>
 <Content />
 <!-- <Lastmod class="my-10" date={work.data.lastmod} show="True" /> -->
  <div>pre     next</div>
+</Prose>
 </BaseLayout>

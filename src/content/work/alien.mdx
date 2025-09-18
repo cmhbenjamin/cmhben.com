@@ -16,13 +16,49 @@ import cover from "../../assets/work/alien.jpg";
 ## Zero gravity spinning acid
 In the sequence the gravity was disabled so when the alien got shot the acid fly around freely.
 Initially it was flying freely but the art direction later changed it slowly form a spinning tube like tunnel, so the characters can navigate through it in the middle.
-The Fx lead generated a number of different acide shape and we placed them along the scene.
+The Fx lead generated a number of different acid shape and we placed them along the scene.
 
-### Acid shapes
-Directional, like a hand reaching out
+- placing the acid cache is more efficient for hero pieces since there are too much art direction involed
+- need a way to store the scattered points so when the upperstream setup change we keep the look for the pieces
+- using instanced acide geo helps to keep the look of the acid consistence, but lack interaction
+- using post deform with a velocity field help adding variation to the acid pieces
 
-# Source as a sphere
+### Acid shapes look
+[image of acid shapes]
+[ reference from slow motion]
+- Directional, like a hand reaching out
+- Fluid like motion, with surface tension stringy look
 
+### motion
+- slow, looking dangerous, drifting through the space
+
+
+### things I learnt
+- hand placing of hero acid is better than using scatter and randomly placing
+- having a setup to swap out low res version of the acid speed up
+- when using scatter always save the point attributes so you can have a version of the distribution even when  you change the upperstream
+- Building attractive looking for nice looking acid shapes
+- keep the setup simple
+
+
+#### Houdini setup
+##### Source
+1. use mountain and transform then subtract with the orignal position for v
+2. group by cluster and randomize v by cluster, set some of the v to 0 to get the stringy look (I saw other people using fractured pieces to drive the velocity, it makes sense too)
+
+##### Simulation
+most important part is the scale and surface tension setting. The overall scene scale depends on the smallest detail you want to see . So it often need to be larger than real world scale. 
+I use a top wedging setup to find the right look of the liquid
+
+1. Higher substeps
+2. Add id attribute
+###### quick attempt to reducing holes
+3. surface oversampling helps with keeping the elongated shape continue but adding particles in the missing area
+4. particle separation helps with keeping the points in the thin film evenly distributed so there will be less holes poping 
+5. reducing the grid scale (increasing resolution) helps so there will be enough resolution for thin area
+
+other resource for surface tension
+https://medium.com/@vupham_37726/houdini-flip-surface-tension-demystified-f1239da880ce
 
 
 Recreation at home

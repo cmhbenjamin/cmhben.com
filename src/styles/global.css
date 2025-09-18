@@ -1,7 +1,10 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
 
 @layer base {
   html{
@@ -16,7 +19,8 @@
   /* max-width: 100ch; */
   /* @apply p-5 mx-auto mb-40 mt-20; */
   } 
-  .content{
+
+  /* .content{
     
     h1{
       @apply text-4xl mt-2 mb-2 font-bold text-gray-200;
@@ -77,6 +81,6 @@
       @apply pr-2;
     }
     @apply leading-8 text-sm font-normal text-gray-300 font-sans antialiased;
-  }
+  } */
 
 }
