@@ -8,6 +8,9 @@ image: "../../assets/work/moana2.jpg"
 description: "Magic"
 order: 2
 ---
+import { Image, Picture } from 'astro:assets';
+// import cover from "../../assets/work/alien.jpg";
+
 
 In the movie when the people pass away, they turn into a sea animal. Moana's ancestor geather around Maui's underwater airbubble and chant a song to bring Moana back to life.
 The ancestor's animal is a whale shark. It's huge compare to his human form so we have to figure out a way to cover that.
@@ -19,7 +22,7 @@ using the bioluminacent
 Then we tried a couple different ideas
 The first logical attept was to have a ripple:
 There are so many ways to do ripple in Houdini. The ripple solver was obvious choice
-source shapes
+## source shapes
 [ripple gif]
 it works well but it's lacking some magical quality
 []
@@ -37,7 +40,7 @@ white wate solver scene
 One problem it's the ripple solver doesn't have a velocity attribute output, since the water just rising up and down. We can 
 Custom ripples with circles and get the velocity from the circles
 
-whitewater
+# whitewater
 There was a solver called chain solver in the studio, I opened the hda and found out the way it was done.
 It was using Principle Component Analysis add force to the particle so they form a stringly look like foam patten
 1. center the patch 
@@ -46,6 +49,9 @@ It was using Principle Component Analysis add force to the particle so they form
 The perpendicular vector of eigan vector is the direction to make it more string like
 I haven't attempt to recreate it but I used the existing PCA nodes in houdini to outline the theory
 https://www.sidefx.com/contentlibrary/pca-dejitter/
+
+
+![looking up](../../assets/video/refraction.v0002.webm)
 
 
 The light

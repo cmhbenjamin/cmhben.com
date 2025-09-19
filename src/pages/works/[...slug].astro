@@ -21,9 +21,24 @@ const { Content, headings} = await render(work);
 ---
 <BaseLayout frontmatter={work.data}>
 <h1>{work.data.title} </h1>
-<Sidebar {headings} />
-<Prose>
-<Content />
+
+
+
+<div class="flex flex-row">
+  <div class="basis-3/4">
+    <Prose>
+      <Content />
+    </Prose>
+  </div>
+  <div class="basis-1/4">
+    <div class="text-xs fixed m-5 p-2 bg-gray-800 rounded-md">
+      <Sidebar {headings} />
+    </div>
+  </div>
+  </div>
+</div>
+
+
 <!-- <Lastmod class="my-10" date={work.data.lastmod} show="True" /> -->
  <div>pre     next</div>
 </Prose>
