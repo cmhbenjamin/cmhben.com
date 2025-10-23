@@ -24,3 +24,5 @@ Thumbs.db
 
 # Other temporary files
 tmp/
+
+public/private/
