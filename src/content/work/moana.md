@@ -10,7 +10,8 @@ order: 2
 ---
 
 # Bioluminacent Magic
-<video src="/moana2/whale_transform.webm" controls autoplay muted playsinline loop> </video>
+<video src="https://youtu.be/on-K551_8ac" controls autoplay muted playsinline loop> </video>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/on-K551_8ac?si=eAMrmodfzgZewpX2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 <video src="/moana2/tuna_transform.webm" controls autoplay muted playsinline loop> </video>
 ## The task
 It's a bioluminacent magic using particles
