@@ -22,6 +22,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()]
-  }
+  },
+  site: 'https://cmhbenjamin.github.io/',
+  // base: 'cmhben.com',
 
 });
