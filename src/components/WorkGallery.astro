@@ -13,7 +13,7 @@ const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.o
   allWorks_ordered.map((work) => (
     
     <div class="relative group text-center overflow-hidden">
-    <a href={'/works/'+(work.id).toLowerCase()}>
+    <a href={'works/'+(work.id).toLowerCase()}>
       <Image src={work.data.image} alt={work.data.title} class="object-cover w-full h-full transform transition-transform duration-500 group-hover:scale-110"/>
       <div class="flex flex-col justify-center absolute inset-0 bg-black opacity-0 hover:opacity-100 hover:bg-opacity-80 transition duration-200 ease-in-out">
         <h2>{work.data.title}</h2>

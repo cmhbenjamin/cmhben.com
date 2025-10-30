@@ -12,13 +12,17 @@
     /* font */
     font-family: 'Roboto Mono Variable', monospace;
     @apply text-gray-500 font-medium;
-    @apply antialiased
+    @apply antialiased;
+    scroll-behavior:smooth;
   }
   body{
   @apply flex flex-row ;
   /* max-width: 100ch; */
   /* @apply p-5 mx-auto mb-40 mt-20; */
   } 
+  a{
+    @apply hover:font-bold hover:text-orange-300 transition-colors;
+  }
 
   /* .content{
     

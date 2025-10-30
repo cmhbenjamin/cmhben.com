@@ -1,5 +1,21 @@
 ---
+
+import { getCollection, render} from 'astro:content';
 const { headings } = Astro.props;
+
+const allWorks = await getCollection("works");
+const allWorks_filtered = allWorks.filter((work: any) => work.data.visible== true);
+const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.order);
+
+const currentPostIndex = allWorks_ordered.findIndex((post) => post.id == Astro.params.slug);
+const previousPost = currentPostIndex + 1 === allWorks_ordered.length ? undefined : allWorks_ordered[currentPostIndex + 1];
+const nextPost = currentPostIndex === 0 ? undefined : allWorks_ordered[currentPostIndex - 1];
+// console.log(Astro.params.slug)
+
+// get pathname for anchor links
+const pathname = Astro.url.pathname || '/';
+
+// console.log(pathname);
 ---
 
 <aside>
@@ -15,18 +31,28 @@ const { headings } = Astro.props;
               h.depth === 3 ? "ml-8" :
               h.depth === 4 ? "ml-12" : "ml-0"
             }>
-          <a href={`#${h.slug}`} class="hover:underline">
+          <a href={`${pathname}#${h.slug}`} class="hover:underline">
             {h.text}
           </a>
           </div>
         </li>
       ))}
+
       <li>
         <div class="text-center p-3 text-cyan-800">
-          <a href ="#">
+          <a href={`${pathname}#`}>
             <div> Top </div>
           </a>
         </div>
+        {
+          (previousPost || nextPost) && (
+            <nav>
+              { previousPost && ( <p>&lt Pre: <a href={`works/${previousPost.id}/`} class="hover:font-bold hover:text-orange-300 transition-colors">{previousPost.data.title} </a></p> ) }
+              { nextPost && ( <p>&gt Next: <a href={`works/${nextPost.id}/`} class="hover:font-bold hover:text-orange-300 transition-colors">{nextPost.data.title}</a></p> ) }
+            </nav>
+          )
+        }
+        
       </li>
     </ul>
     

@@ -5,6 +5,12 @@ import Lastmod from '../../components/lastmod.astro';
 import Prose from '../../components/Prose.astro';
 import Sidebar from '../../components/Sidebar.astro';
 
+const allWorks = await getCollection("works");
+const allWorks_filtered = allWorks.filter((work: any) => work.data.visible== true);
+const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.order);
+
+
+
 
 export async function getStaticPaths() {
   const pages = await getCollection('works');
@@ -40,6 +46,7 @@ const { Content, headings} = await render(work);
 
 
 <!-- <Lastmod class="my-10" date={work.data.lastmod} show="True" /> -->
- <div>pre     next</div>
+
+
 </Prose>
 </BaseLayout>

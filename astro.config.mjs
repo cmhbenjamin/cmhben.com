@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import remarkPrefixBase from './src/utils/remark-prefix-base.mjs';
 
 
 import mdx from '@astrojs/mdx';
@@ -17,6 +18,12 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   site: 'https://cmhbenjamin.github.io/',
-  // base: 'cmhben.com',
+  base: '/cmhben.com/',
+  // trailingSlash: 'always',
+  markdown: {
+    remarkPlugins: [
+      [remarkPrefixBase, { base: '/cmhben.com/' }]
+    ]
+  },
 
 });
