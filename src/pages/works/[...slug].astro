@@ -23,11 +23,8 @@ const { work } = Astro.props;
 const { Content, headings} = await render(work);
 
 ---
-<BaseLayout frontmatter={work.data}>
+<!-- <BaseLayout frontmatter={work.data}>
 <h1>{work.data.title} </h1>
-
-
-
 <div class="flex flex-row">
   <div class="basis-full max-w-none! md:basis-3/4">
     <Prose>
@@ -37,16 +34,26 @@ const { Content, headings} = await render(work);
     </Prose>
   </div>
   <div class="hidden md:flex md:basis-1/4 ">
-    <div class="text-xs fixed m-5 p-2 bg-gray-800 rounded-md">
+    <div class="text-s fixed m-5 p-2 bg-gray-800 rounded-md">
       <Sidebar {headings} />
     </div>
   </div>
+</div>
+</BaseLayout> -->
+
+<BaseLayout frontmatter={work.data}>
+<h1>{work.data.title} </h1>
+<div class="flex flex-row">
+  <div class="pr-0 md:pr-5 lg:pr-10 min-w-24">
+  <Prose>
+    <Content />
+  </Prose>
+  </div>
+  <div class="hidden md:flex md:basis-1/4 ">
+    <!-- <div class="top-0 sm:text-xs md:text-sm basis-auto sticky p-2 bg-gray-800 rounded-md"> -->
+    <div>
+      <Sidebar {headings}/>
+    </div>
   </div>
 </div>
-
-
-<!-- <Lastmod class="my-10" date={work.data.lastmod} show="True" /> -->
-
-
-</Prose>
 </BaseLayout>
