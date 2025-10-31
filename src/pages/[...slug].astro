@@ -16,10 +16,15 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 
 ---
+<!-- pages -->
 <BaseLayout frontmatter={post.data}>
 
-<Prose>
-  <Content />
-</Prose>
+  <div class="flex">
+    <div class="basis-full !max-w-none">
+      <Prose>
+        <Content />
+      </Prose>
+    </div>
+  </div>
 <Lastmod class="my-10" date={post.data.lastmod} show={post.data.showdate} />
 </BaseLayout>

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import '@fontsource-variable/roboto-mono';
 import '@fontsource-variable/montserrat';
 
+
 import '../styles/global.css';
 const { title,lastmod,nav,showdate } = Astro.props.frontmatter;
 ---
@@ -13,31 +14,36 @@ const { title,lastmod,nav,showdate } = Astro.props.frontmatter;
   <head>
     <base href={import.meta.env.BASE_URL} />
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo_s.svg" />
+    <link rel="icon" type="image/svg+xml" href="logo_s.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{ title }</title>
     
   </head>
-  <body class="py-6 px-4 sm:p-6 md:py-10 md:px-8 flex-col">
-    <div class="w-full md:max-w-8xl md:mx-auto flex flex-col md:flex-row">
-        <nav class ="md:w-1/5 flex flex-row items-center md:items-baseline md:flex-col gap-4 text-sm font-normal">
+  <body class="py-6 px-4 sm:p-6 lg:py-10 lg:px-8 flex-col">
+    <div class="w-full lg:max-w-8xl lg:mx-auto flex flex-col lg:flex-row">
+        <nav class="lg:w-1/5">
           <Navigation />
         </nav>
-      <div class="md:w-4/5 flex-row gap-5">
-        <div class="px-2 md:px-0">
+      <div class="lg:w-4/5 flex-row gap-5">
+        <div class="px-2 lg:px-0">
           <!-- <div class="h-10 flex mb-6">
             <h1 class="self-end text-xl font-extrabold tracking-wide">Benjamin Chan</h1>
           </div> -->
-          <div class="content flex-row md:max-w-5xl">
+          <div class="content flex-row lg:max-w-5xl">
             <slot />
           </div>
         </div>
       </div>
       
     </div>
-    <!-- <footer class="w-full pt-6 md:pt-32 text-sm flex justify-normal items-center">
+    <!-- <footer class="w-full pt-6 lg:pt-32 text-sm flex justify-normal items-center">
       <Footer />
     </footer> -->
+    <footer>
+      <div class="lg:fixed lg:bottom-10 lg:mt-4">
+        <p class="mt-2 text-xs">© 2025 Benjamin Chan</p>
+      </div>
+    </footer>
   </body>
 </html>

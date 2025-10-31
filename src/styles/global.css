@@ -24,6 +24,10 @@
     @apply hover:font-bold hover:text-orange-300 transition-colors;
   }
 
+  .hidden {
+    display: none;
+  }
+
   /* .content{
     
     h1{

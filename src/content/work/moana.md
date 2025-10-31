@@ -5,15 +5,18 @@ studio: Disney Animation
 releaseYear: 2014
 visible: true
 image: "../../assets/work/moana2.jpg"
-description: "Magic"
+description: Bioluminacent Magic for Ancestor transformation
 order: 2
 ---
 
 # Bioluminescent Magic for Ancestor Transformation
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/on-K551_8ac?si=eAMrmodfzgZewpX2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/TZa7V_qyAVA?si=wcuJidfw4aTQbABf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div class="flex items-center justify-center">
+    <div>
+        <iframe  width="560" height="315" src="https://www.youtube.com/embed/on-K551_8ac?si=eAMrmodfzgZewpX2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/TZa7V_qyAVA?si=wcuJidfw4aTQbABf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+</div>
 
 <!-- Local videos commented out for now:
 <video src="https://youtu.be/on-K551_8ac" controls autoplay muted playsinline loop></video>
@@ -36,31 +39,45 @@ The idea starts from the whale's glow that slowly becomes shadow. At the same ti
 
 <video src="/cmhben.com/moana2/caustic.v0001.webm" controls autoplay muted playsinline loop></video>
 
-The initial idea came from an ![Entagma tutorial](https://www.youtube.com/watch?v=GPYlgxMaMQs). I adapted it to use a sphere as the light source and project points onto a curved surface.
+The initial idea came from an [Entagma tutorial](https://www.youtube.com/watch?v=GPYlgxMaMQs). I adapted it to use a sphere as the light source and project points onto a curved surface so that the shapes get larger towards the edge and have a natural fading out without a mask.
 
 <video src="moana2/caustic.v0002.webm" controls autoplay muted playsinline loop></video>
 
-VEX used for refraction and projection:
+### Overall caustic setup
+<img class="max-h-150" src="moana2/caustics_sop.v0001.png"/>
 
-```c
-vector ray_dir;
-vector p2, uvw;
-int prim;
-// orig_N is the direction pointing from the sphere to the projection plane, N is the normal of the deforming sphere
-ray_dir = refract(v@orig_N, v@N, ch("ior"));
-ray_dir *= 100;
-// check intersection and project onto collider
-v@ray_dir = ray_dir;
-prim = intersect(1, v@P, ray_dir, p2, uvw);
-if (prim == -1) {
-    removepoint(0, @ptnum);
-    v@Cd = 0;
-} else {
-    v@Cd = primuv(1, "Cd", prim, uvw);
-    v@target_N = primuv(1, "N", prim, uvw);
-}
-v@P = p2;
-```
+1. set orign_N set the base direction from sphere to the project plane
+2. deform the sphere for the normal
+3. refract on the deformed sphere and project onto projection plane
+    ```c
+        vector ray_dir;
+        vector p2, uvw;
+        int prim;
+        // orig_N is the direction pointing from the sphere to the 
+        // projection plane, N is the normal of the deforming sphere
+        ray_dir = refract(v@orig_N, v@N, ch("ior"));
+        ray_dir *= 100;
+        // check intersection and project onto collider
+        v@ray_dir = ray_dir;
+        prim = intersect(1, v@P, ray_dir, p2, uvw);
+        if (prim == -1) {
+            removepoint(0, @ptnum);
+            v@Cd = 0;
+        } else {
+            v@Cd = primuv(1, "Cd", prim, uvw);
+            v@target_N = primuv(1, "N", prim, uvw);
+        }
+        v@P = p2;
+    ```
+4. Set density to filter out sparse area
+    ```c
+        float maxdist = ch("maxdist");
+        int pts[] = nearpoints(0,v@P,maxdist);
+        float density = fit(len(pts),ch("min"),ch("max"),0,1);
+        @Cd = density;
+        @density = density;
+    ```
+5. Use blur sop to shapen and convert to volume
 
 ### Whale mask (fading)
 
@@ -109,39 +126,81 @@ The first logical attept was to have a ripple:
 
 There are many ways to create ripples in Houdini. The ripple solver is a straightforward choice: source the ripple from the distance between surfaces and apply a ramp to the height offset. It works well but lacks a "magical" quality and the shapes are not very clean.
 
-### Circle solver
+### Procedural circle ripples
 
 ![Raindrop](https://images.pexels.com/photos/4396992/pexels-photo-4396992.jpeg)
 
-Rain-drop-like circles are gentler. The circle solver gives outward velocity that trails the circle line, whereas the ripple solver primarily moves geometry up and down.
+Rain-drop-like circles are gentler. The circle solver gives outward velocity that trails the circle line, whereas the ripple solver primarily moves geometry up and down. It's render in RGB from @N for distortion in compositing
 
+#### Circle Ripple Setup 
 <video src="moana2/circlesolver.v0001.webm" controls autoplay muted playsinline loop></video>
-<video src="moana2/circlesolver.v0002.webm" controls autoplay muted playsinline loop></video>
+<img class="max-h-150" src="moana2/circle_sop.v0001.png"/>
 
+1. Animated circle by setting point attributes like trigger frame and life and calculate the pscale foreach point
+    ```c
+    //set age and scale
+    @age = @Frame- @trigger_frame;
+    @pscale = fit(@age,0,@life,v@pscale_range[0],v@pscale_range[1]);
+    v@center =v@P;
+    ```
+2. delete the whole circle before born, add variation to the points circles desolves gradually
+    ```c
+    //delete_after_death
+    float limit = fit(@age,@life*(.7+@death_offset),@life,0,1);
+    if(rand(@id)<limit)
+        removepoint(0,@ptnum);
+    ```
+#### Displace Surface Setup
+<video src="moana2/circlesolver.v0002.webm" controls autoplay muted playsinline loop></video>
+<img class="max-h-150" src="moana2/circle_sop.v0002.png"/>
+
+1. Offset on in camera z and project onto surface
+    ```c
+    matrix Op_Matrix= optransform(chsop("cam")); 
+    vector dir  = getbbox_center(0)-Op_Matrix*set(0,0,0);
+    v@dir = dir;
+    v@P += normalize(dir)*ch("mult");
+    ```
+2. Copy attributes to surface and create mask base on distance from the circle lines
+    ```c
+    int prim;
+    vector primuv;
+    float dist = xyzdist(1,v@P,prim,primuv);
+    vector p = primuv(1,"P",prim,primuv);
+    @age = primuv(1,"age",prim,primuv);
+    @life = primuv(1,"life",prim,primuv);
+    @dist = length(p-v@P);
+    @mask = chramp("ramp",fit(@dist,0,ch("maxdist"),0,1));
+    ```
+3. Calculate height multiplyer with height, then apply displacement onto surface
+    ```c
+    v@rest_N = v@N;
+    float age_height =chramp("ramp", fit(@age,0,@life,0,1));
+    v@P+= v@N*@mask*ch("mult")*age_height;
+    ```
 ## Bioluminescent particles
 
-Referencing the original movie where the grandmother ray swims by. As an FX artist my instinct was to go splash-first (as in Elemental), but the sequence needed a more somber, magical feeling.
+Referencing the original movie where the grandmother ray swims by. As an FX artist my instinct was to create a big splash but the sequence needed a more somber, magical feeling.
 
 ![Whale bubble feeding](https://upload.wikimedia.org/wikipedia/commons/3/3a/Humpback_whale_bubble_net_feeding_Christin_Khan_NOAA.jpg)
 
-### Whitewater shape
+### Whitewater shape solver
 
 <video src="moana2/biolumin.v0001.webm" controls autoplay muted playsinline loop></video>
 
-A studio chain-solver HDA inspired this approach. It uses PCA to add forces so particles form stringy, foam-like patterns:
-1. Center the patch.
-2. Create the covariance matrix.
-3. Calculate eigenvectors and eigenvalues.
+I used a existing studio solver for enhancing foam shape. It uses PCA to add forces so particles form stringy, foam-like patterns. Here is the overall process:
+1. Find all the particles in a patch around each point
+2. Center the patch.
+3. Create the covariance matrix.
+4. Calculate eigenvectors and eigenvalues.
 
-The perpendicular of the principal eigenvector gives the direction that creates a string-like look. I used existing PCA nodes in Houdini to explore the idea.
-
-#### Chain solver
+The eigenvector basically represent the overall direction of the patch, using the perpendicular of the principal eigenvector as force aligns the particles along the eiganvector so there are more string like feature.
 
 <video src="moana2/chainsolver.v0002.webm" controls autoplay muted playsinline loop></video>
 
 #### SOP PCA
 
-Houdini has a SOP PCA implementation. It requires points to be arranged so each point stores neighbor positions; this can be impractical here but helps illustrate the concept.
+Houdini has a SOP PCA implementation. It requires points to be arranged so each point stores neighbor positions. It's impractical for this use case here but helps illustrate the concept.
 
 ![pca](/moana2/pca.v0001.png)
 Set neighbours wrangle:
@@ -175,7 +234,7 @@ removepoint(0, @ptnum);
 ```
 
 References:
-- Entagma tutorial (inspiration): https://www.youtube.com/watch?v=GPYlgxMaMQs
+- Entagma tutorial: https://www.youtube.com/watch?v=GPYlgxMaMQs
 - SideFX PCA dejitter example: https://www.sidefx.com/contentlibrary/pca
 
 

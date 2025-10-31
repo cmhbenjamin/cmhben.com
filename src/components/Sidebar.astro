@@ -15,14 +15,14 @@ const nextPost = currentPostIndex === 0 ? undefined : allWorks_ordered[currentPo
 // get pathname for anchor links
 const pathname = Astro.url.pathname || '/';
 
-// console.log(pathname);
+//console.log(Astro.props);
 ---
 
 <aside>
  <div>
   <nav>
     <ul class="space-y-2">
-      {headings.map((h) => (
+      {headings.map((h: { depth: number; slug: any; text: unknown; }) => (
         <li >
             {/* <div class={`ml-${(h.depth - 1) * 4}`}> */}
             <div class={
