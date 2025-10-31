@@ -21,7 +21,7 @@
     "@frontmatter/extensibility": "^0.0.18",
     "@sanity/astro": "^3.2.10",
     "@sanity/client": "^7.11.2",
-    "@tailwindcss/vite": "^4.1.13",
+    "@tailwindcss/vite": "^4.1.16",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "astro": "^5.13.8",
@@ -33,7 +33,7 @@
     "sanity": "^4.9.0",
     "sharp": "^0.33.5",
     "styled-components": "^6.1.19",
-    "tailwindcss": "^4.1.13",
+    "tailwindcss": "^4.1.16",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
