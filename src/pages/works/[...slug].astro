@@ -22,8 +22,6 @@ export async function getStaticPaths() {
 const { work } = Astro.props;
 const { Content, headings} = await render(work);
 
-
-
 ---
 <BaseLayout frontmatter={work.data}>
 <h1>{work.data.title} </h1>

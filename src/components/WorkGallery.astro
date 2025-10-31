@@ -8,25 +8,26 @@ const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.o
 // console.log(allWorks_ordered)
 ---
 
-<div class="grid grid-cols-2">
+<div class="grid lg:grid-cols-2">
+  <div class="relative group text-center overflow-hidden">
+    <a href="resume">
+      <img src="./work/preview/alien.jpg" alt="" class="object-cover w-full h-full transform transition-transform duration-500 group-hover:scale-110"/>
+      <div class="flex flex-col justify-center absolute inset-0 bg-black opacity-80 hover:opacity-80 hover:bg-opacity-80 transition duration-200 ease-in-out">
+        <h2>Reel and Resume</h2>
+        <!-- <h3>{work.data.description}</h3> -->
+      </div>
+  </a>
+  </div>
 {
   allWorks_ordered.map((work) => (
     
     <div class="relative group text-center overflow-hidden">
     <a href={'works/'+(work.id).toLowerCase()}>
       <Image src={work.data.image} alt={work.data.title} class="object-cover w-full h-full transform transition-transform duration-500 group-hover:scale-110"/>
-      <div class="flex flex-col justify-center absolute inset-0 bg-black opacity-0 hover:opacity-80 hover:bg-opacity-80 transition duration-200 ease-in-out">
+      <div class="flex flex-col justify-center absolute inset-0 bg-black opacity-80 lg:opacity-0 hover:opacity-80 hover:bg-opacity-80 transition duration-200 ease-in-out">
         <h2>{work.data.title}</h2>
         <h3>{work.data.description}</h3>
       </div>
-      {/* <div class="absolute inset-0 bg-black opacity-0 hover:opacity-100 hover:bg-opacity-80 transition duration-200 ease-in-out">
-        <h2 class="absolute text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          {work.data.title}
-        </h2>
-        <h3 class="absolute text-amber-600 bottom-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          {work.data.description}
-        </h3>
-      </div> */}
     </a>
     </div>
     
