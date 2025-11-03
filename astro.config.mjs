@@ -18,8 +18,9 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  site: 'https://cmhbenjamin.github.io/',
+  // site: 'https://cmhbenjamin.github.io/',
   // base: '/cmhben.com/',
+  site: 'https://cmhben.com',
   base:'',
   // trailingSlash: 'always',
   markdown: {
