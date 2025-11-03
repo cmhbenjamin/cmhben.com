@@ -19,7 +19,8 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   site: 'https://cmhbenjamin.github.io/',
-  base: '/cmhben.com/',
+  // base: '/cmhben.com/',
+  base:'',
   // trailingSlash: 'always',
   markdown: {
     remarkPlugins: [

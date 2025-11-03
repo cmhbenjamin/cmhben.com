@@ -2,7 +2,7 @@
 import { getCollection, render} from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Lastmod from '../components/lastmod.astro';
-import Prose from '../components/Prose.astro';
+import ProseMax from '../components/ProseMax.astro';
 
 
 export async function getStaticPaths() {
@@ -21,9 +21,9 @@ const { Content } = await render(post);
 
   <div class="flex">
     <div class="basis-full max-w-none!">
-      <Prose>
+      <ProseMax>
         <Content />
-      </Prose>
+      </ProseMax>
     </div>
   </div>
 <Lastmod class="my-10" date={post.data.lastmod} show={post.data.showdate} />

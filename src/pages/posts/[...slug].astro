@@ -2,7 +2,7 @@
 import { getCollection, render} from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Lastmod from '../../components/lastmod.astro';
-import Prose from '../../components/Prose.astro';
+import ProseMax from '../../components/ProseMax.astro';
 
 export async function getStaticPaths() {
   const pages = await getCollection('blog');
@@ -19,9 +19,9 @@ const { Content } = await render(post);
 <BaseLayout frontmatter={post.data}>
   <div class="flex">
     <div class="basis-full">
-      <Prose>
+      <ProseMax>
         <Content />
-      </Prose>
+      </ProseMax>
     </div>
   </div>
 
