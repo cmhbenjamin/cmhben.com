@@ -39,6 +39,9 @@
             }
           ]
         },
+        "visible": {
+          "type": "boolean"
+        },
         "description": {
           "type": "string"
         },
@@ -56,6 +59,7 @@
         "title",
         "pubDate",
         "lastmod",
+        "visible",
         "description",
         "tags"
       ],

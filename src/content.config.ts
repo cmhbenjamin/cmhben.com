@@ -9,6 +9,7 @@ const blog = defineCollection({
       title: z.string(),
       pubDate: z.date(),
       lastmod: z.date(),
+      visible:z.boolean(),
       description: z.string(),
       tags: z.array(z.string())
     })
@@ -19,6 +20,7 @@ const pages = defineCollection({
       title: z.string(),
       lastmod: z.date(),
       nav:z.boolean(),
+      visible:z.boolean(),
       showdate:z.boolean(),
     })
 });

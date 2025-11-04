@@ -4,14 +4,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const allPosts = await getCollection("blog");
 // const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
-
+const allPosts_filtered = allPosts.filter((work: any) => work.data.visible== true);
 
 const title = "Posts";
 
 ---
 <BaseLayout frontmatter={title}>
     <div>
-        {allPosts.map((post) => (
+        {allPosts_filtered.map((post) => (
         <p class="post"><a href={`/posts/${post.id}`}>{post.data.title}</a></p>
         )
     )}

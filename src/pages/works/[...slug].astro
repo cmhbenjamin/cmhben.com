@@ -10,11 +10,12 @@ const allWorks_filtered = allWorks.filter((work: any) => work.data.visible== tru
 const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.order);
 
 
-
-
 export async function getStaticPaths() {
-  const pages = await getCollection('works');
-  return pages.map(work => ({
+  const allWorks = await getCollection("works");
+  const allWorks_filtered = allWorks.filter((work: any) => work.data.visible== true);
+  const allWorks_ordered = allWorks_filtered.sort((a,b) => a.data.order - b.data.order);
+  
+  return allWorks_ordered.map(work => ({
     params: { slug: work.id }, props: { work },
   }));
 }
@@ -23,23 +24,6 @@ const { work } = Astro.props;
 const { Content, headings} = await render(work);
 
 ---
-<!-- <BaseLayout frontmatter={work.data}>
-<h1>{work.data.title} </h1>
-<div class="flex flex-row">
-  <div class="basis-full max-w-none! md:basis-3/4">
-    <Prose>
-      <div class="max-w-prose">
-        <Content />
-      </div>
-    </Prose>
-  </div>
-  <div class="hidden md:flex md:basis-1/4 ">
-    <div class="text-s fixed m-5 p-2 bg-gray-800 rounded-md">
-      <Sidebar {headings} />
-    </div>
-  </div>
-</div>
-</BaseLayout> -->
 
 <BaseLayout frontmatter={work.data}>
 <h1>{work.data.title} </h1>

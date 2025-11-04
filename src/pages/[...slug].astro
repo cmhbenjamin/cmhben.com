@@ -7,7 +7,8 @@ import ProseMax from '../components/ProseMax.astro';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
-  return pages.map(post => ({
+  const pages_filtered = pages.filter((work: any) => work.data.visible== true);
+  return pages_filtered.map(post => ({
     params: { slug: post.id }, props: { post },
   }));
 }

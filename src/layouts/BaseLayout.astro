@@ -17,8 +17,18 @@ const { title,lastmod,nav,showdate } = Astro.props.frontmatter;
     <link rel="icon" type="image/svg+xml" href="logo_s.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{ title }</title>
+    <meta name="description" content="Portfolio of Benjamin Chan, VFX artist specializing in simulation, compositing, and procedural effects. Featuring my demo reel, breakdowns, and setups showcasing techniques and workflows used in past projects.">
     
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Benjamin Chan's Portfolio" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cmhben.com" />
+    <meta property="og:description" content="Portfolio of Benjamin Chan, VFX artist specializing in simulation, compositing, and procedural effects." />
+    <!-- <meta property="og:image" content="https://www.example.com/_astro/seo-banner.BZD7kegZ.webp">
+    <meta property="og:image:alt" content=""> -->
+
   </head>
   <body class="py-6 px-2 lg:py-10 lg:px-2 xl:px-10 flex-col">
     <div class="w-full lg:max-w-8xl lg:mx-auto flex flex-col lg:flex-row">

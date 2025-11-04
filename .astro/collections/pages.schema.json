@@ -26,6 +26,9 @@
         "nav": {
           "type": "boolean"
         },
+        "visible": {
+          "type": "boolean"
+        },
         "showdate": {
           "type": "boolean"
         },
@@ -37,6 +40,7 @@
         "title",
         "lastmod",
         "nav",
+        "visible",
         "showdate"
       ],
       "additionalProperties": false

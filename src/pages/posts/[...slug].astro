@@ -5,8 +5,10 @@ import Lastmod from '../../components/lastmod.astro';
 import ProseMax from '../../components/ProseMax.astro';
 
 export async function getStaticPaths() {
-  const pages = await getCollection('blog');
-  return pages.map(post => ({
+  const posts = await getCollection('blog');
+  const posts_filtered = posts.filter((work: any) => work.data.visible== true);
+  // const posts_ordered = posts_filtered.sort((a,b) => a.data.order - b.data.order);
+  return posts_filtered.map(post => ({
     params: { slug: post.id }, props: { post },
   }));
 }
