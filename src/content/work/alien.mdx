@@ -3,12 +3,17 @@ title: Alien Romulus
 fmContentType: page
 studio: Disney Animation
 releaseYear: 2024
-visible: false
+visible: true
 image: "../../assets/work/alien.jpg"
 description: "Zero gravity acid"
 order: 1
+tags:
+  - flip
+  - wedging
+  - topnet
 ---
 import { Image, Picture } from 'astro:assets';
+import { YouTube } from 'astro-embed';
 import cover from "../../assets/work/alien.jpg";
 
 <Image src={cover} alt="cover" /> 
@@ -24,34 +29,54 @@ The Fx lead generated a number of different acid shape and we placed them along 
 - using post deform with a velocity field help adding variation to the acid pieces
 
 ### Acid shapes look
-[image of acid shapes]
-[ reference from slow motion]
+
+![paintball](/alien/paintball_reference_v001.png)
+<YouTube id="0fP_k6y9ows" params="start=225" />
 - Directional, like a hand reaching out
 - Fluid like motion, with surface tension stringy look
-
-### motion
 - slow, looking dangerous, drifting through the space
 
 
-### things I learnt
+
+
+
+### Notes
 - hand placing of hero acid is better than using scatter and randomly placing
-- having a setup to swap out low res version of the acid speed up
-- when using scatter always save the point attributes so you can have a version of the distribution even when  you change the upperstream
+- having a setup to swap out low res version of the acid speed up, Level of detail for efficiency, use low res acid for figure out layout and motion
+- store randomized result for pickup later when using scatter always save the point attributes so you can have a version of the distribution even when  you change the upperstream
 - Building attractive looking for nice looking acid shapes
 - keep the setup simple
 
 
 #### Houdini setup
+![splash source](/alien/splash_source_v003.png)
 ##### Source
+![splash source cluster](/alien/splash_source_v001.png)
 1. use mountain and transform then subtract with the orignal position for v
-2. group by cluster and randomize v by cluster, set some of the v to 0 to get the stringy look (I saw other people using fractured pieces to drive the velocity, it makes sense too)
+![dopnet](/alien/splash_source_v002.png)
+2. group by cluster to create structure and randomize v by cluster to create the stringy look, set some of the v to 0 to get the stringy look. An alternative way is to use rbd fracture the source geo as source.
 
 ##### Simulation
 most important part is the scale and surface tension setting. The overall scene scale depends on the smallest detail you want to see . So it often need to be larger than real world scale. 
 I use a top wedging setup to find the right look of the liquid
-
 1. Higher substeps
 2. Add id attribute
+##### Wedging setup
+![topnet](/alien/splash_topnet_v001.png)
+1. Wedging attributes
+    ![topnet](/alien/splash_topnet_v002.png)
+    Wedging the velocity noise size and surface tension to find the right look
+![wedge](/alien/splash_wedge_v001.png)
+2. OpenImageIO for adding details into the picture
+![wedge](/alien/splash_topnet_v003.png)
+3. Use ImageMagick to combine image for montage
+
+###### Results
+<video src="alien/alien_acid_v00003.webm" controls autoplay muted playsinline loop></video>
+<video src="alien/alien_acid_v00006.webm" controls autoplay muted playsinline loop></video>
+<video src="alien/alien_acid_v00007.webm" controls autoplay muted playsinline loop></video>
+<video src="alien/alien_acid_v00008.webm" controls autoplay muted playsinline loop></video>
+
 ###### quick attempt to reducing holes
 3. surface oversampling helps with keeping the elongated shape continue but adding particles in the missing area
 4. particle separation helps with keeping the points in the thin film evenly distributed so there will be less holes poping 
