@@ -47,8 +47,8 @@ const pathname = Astro.url.pathname || '/';
         {
           (previousPost || nextPost) && (
             <nav>
-              { previousPost && ( <p>&lt Pre: <a href={`works/${previousPost.id}/`} class="hover:font-bold hover:text-orange-300 transition-colors">{previousPost.data.title} </a></p> ) }
-              { nextPost && ( <p>&gt Next: <a href={`works/${nextPost.id}/`} class="hover:font-bold hover:text-orange-300 transition-colors">{nextPost.data.title}</a></p> ) }
+              { previousPost && ( <div class="">&lt Pre: <a href={`works/${previousPost.id}/`} class="hover:font-bold hover:text-orange-300 transition-colors">{previousPost.data.title} </a></div> ) }
+              { nextPost && ( <div class="">&gt Next: <a href={`works/${nextPost.id}/`} class="hover:font-bold hover:text-orange-300 transition-colors">{nextPost.data.title}</a></div> ) }
             </nav>
           )
         }

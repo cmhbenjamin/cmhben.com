@@ -18,7 +18,7 @@ import cover from "../../assets/work/alien.jpg";
 
 <Image src={cover} alt="cover" /> 
 
-## Zero gravity spinning acid
+# Zero gravity spinning acid
 In the sequence the gravity was disabled so when the alien got shot the acid fly around freely.
 Initially it was flying freely but the art direction later changed it slowly form a spinning tube like tunnel, so the characters can navigate through it in the middle.
 The Fx lead generated a number of different acid shape and we placed them along the scene.
@@ -28,40 +28,33 @@ The Fx lead generated a number of different acid shape and we placed them along 
 - using instanced acide geo helps to keep the look of the acid consistence, but lack interaction
 - using post deform with a velocity field help adding variation to the acid pieces
 
-### Acid shapes look
-
+# Generating Acid caches
+## Reference
 ![paintball](/alien/paintball_reference_v001.png)
 <YouTube id="0fP_k6y9ows" params="start=225" />
 - Directional, like a hand reaching out
 - Fluid like motion, with surface tension stringy look
 - slow, looking dangerous, drifting through the space
 
-
-
-
-
-### Notes
-- hand placing of hero acid is better than using scatter and randomly placing
-- having a setup to swap out low res version of the acid speed up, Level of detail for efficiency, use low res acid for figure out layout and motion
-- store randomized result for pickup later when using scatter always save the point attributes so you can have a version of the distribution even when  you change the upperstream
-- Building attractive looking for nice looking acid shapes
-- keep the setup simple
-
-
-#### Houdini setup
+## Simulation
 ![splash source](/alien/splash_source_v003.png)
-##### Source
+## Source
 ![splash source cluster](/alien/splash_source_v001.png)
 1. use mountain and transform then subtract with the orignal position for v
 ![dopnet](/alien/splash_source_v002.png)
 2. group by cluster to create structure and randomize v by cluster to create the stringy look, set some of the v to 0 to get the stringy look. An alternative way is to use rbd fracture the source geo as source.
 
-##### Simulation
+## Solver
 most important part is the scale and surface tension setting. The overall scene scale depends on the smallest detail you want to see . So it often need to be larger than real world scale. 
 I use a top wedging setup to find the right look of the liquid
+### solver settings
 1. Higher substeps
 2. Add id attribute
-##### Wedging setup
+#### Reducing holes
+3. surface oversampling helps with keeping the elongated shape continue but adding particles in the missing area
+4. particle separation helps with keeping the points in the thin film evenly distributed so there will be less holes poping 
+5. reducing the grid scale (increasing resolution) helps so there will be enough resolution for thin area
+#### Wedging setup
 ![topnet](/alien/splash_topnet_v001.png)
 1. Wedging attributes
     ![topnet](/alien/splash_topnet_v002.png)
@@ -70,33 +63,100 @@ I use a top wedging setup to find the right look of the liquid
 2. OpenImageIO for adding details into the picture
 ![wedge](/alien/splash_topnet_v003.png)
 3. Use ImageMagick to combine image for montage
+4. collect wedges
+  ![loading wedge](/alien/collect_wedges_sop_v001.png)
+  ```c
+  string wedge_list[] = split(chs("wedge_list")," ");
+  for(int i=0; i<len(wedge_list);i++){
+      int id = addpoint(0,set(0,0,0));
+      setpointattrib(0,"wedge",id,wedge_list[i]);
+  }
+  ```
 
-###### Results
+
+### Results
 <video src="alien/alien_acid_v00003.webm" controls autoplay muted playsinline loop></video>
 <video src="alien/alien_acid_v00006.webm" controls autoplay muted playsinline loop></video>
 <video src="alien/alien_acid_v00007.webm" controls autoplay muted playsinline loop></video>
 <video src="alien/alien_acid_v00008.webm" controls autoplay muted playsinline loop></video>
 
-###### quick attempt to reducing holes
-3. surface oversampling helps with keeping the elongated shape continue but adding particles in the missing area
-4. particle separation helps with keeping the points in the thin film evenly distributed so there will be less holes poping 
-5. reducing the grid scale (increasing resolution) helps so there will be enough resolution for thin area
+
 
 other resource for surface tension
 https://medium.com/@vupham_37726/houdini-flip-surface-tension-demystified-f1239da880ce
 
 
-Recreation at home
-
-### Acid advection
+# Vdb advect point with velosity field
 Acid where retimed and advected by a vdb field to create more directable motion
 
+## Advection setup
+<video src="alien/alien_acid_v00009.deformation.v001.webm" controls autoplay muted playsinline loop></video>
+### Vdb advect points
+Rotated on the source point for not rotation and rotate on the geometry mesh for some deformation
+![vdb advect points](/alien/curve_vel_sop_v002.png)
+### self rotate with orient
+```c
+vector4 original_orient = p@orient;
+matrix3 m = qconvert(original_orient);
+prerotate(m,radians(ch("amount")*@rotate_speed*(@Frame+ch("frame_offset"))),chv("rotate"));
+p@orient = quaternion(m);
+```
+
+#### vel field
+![vel field network](/alien/curve_vel_sop_v001.png)
+
+<div> Follow, suction and orbit:</div>
+<div class="flex">
+<div class= "w-1/3"><img src="/alien/curve_vel_sop_v003.follow.png" /></div>
+<div class= "w-1/3"> <img src="/alien/curve_vel_sop_v003.suction.png" /></div>
+<div class= "w-1/3"><img src="/alien/curve_vel_sop_v003.orbit.png" /></div>
+</div>
+
+curve_vel_field:
+``` c
+// runs on volume with vector field vel
+int prim;
+vector primuv;
+float radius = ch("radius");
+float dist = xyzdist(1,v@P,prim,primuv);
+vector N = primuv(1,"N",prim,primuv);
+vector P = primuv(1,"P",prim,primuv);
+//prep
+float r_normalize = fit(dist,0,radius,0,1);
+float mask = (dist>radius)? 0:1;
+//follow
+vector follow_dir = normalize(N);
+float follow_mult = ch("follow_mult");
+float follow_ramp_r = chramp("follow_ramp_radius",r_normalize);
+// suction
+vector suction_dir = normalize(P-v@P);
+float suction_mult = ch("suction_mult");
+float suction_ramp_r = chramp("suction_ramp_radius",r_normalize);
+// orbit
+vector orbit_dir = normalize(cross(follow_dir,suction_dir));
+float orbit_mult = ch("orbit_mult");
+float orbit_ramp_r = chramp("orbit_ramp_radius",r_normalize);
+
+v@vel = follow_dir*follow_mult*follow_ramp_r;
+v@vel += suction_dir*suction_mult*suction_ramp_r;
+v@vel += orbit_dir*orbit_mult*orbit_ramp_r;
+v@vel *= mask;
+```
+
+{/*
 ### Secondary elements
 Some seconary effects includes broken alien pieces, smaller acid droplets for smaller details and cached static smoke and simulated smoke emit when acid touch the wall
 - Alien pieces
 - Acid droplets
 - Acid smokes at melting metal
 
-
 ## Sparks
 gunshot sparks matching older movies and reference footage
+*/}
+
+# Notes
+- hand placing of hero acid is better than using scatter and randomly placing
+- having a setup to swap out low res version of the acid speed up, Level of detail for efficiency, use low res acid for figure out layout and motion
+- store randomized result for pickup later when using scatter always save the point attributes so you can have a version of the distribution even when  you change the upperstream
+- Building attractive looking for nice looking acid shapes
+- keep the setup simple
