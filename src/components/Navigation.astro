@@ -46,7 +46,7 @@ const base = import.meta.env.BASE_URL;
         
         {allPosts_filtered.map((post) => (
         <li>
-        <a href={(post.id).toLowerCase()} class={pathname === base+(post.id).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300 transition-colors"}>
+        <a href={(post.id).toLowerCase()+'/'} class={pathname === base+(post.id).toLowerCase()+'/' ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300 transition-colors"}>
           {post.data.title}
         </a>
         </li>
@@ -73,7 +73,7 @@ const base = import.meta.env.BASE_URL;
               {
               allWorks_ordered.map((work) => (  
                 <li>
-                  <a href={'works/'+(work.id).toLowerCase()} class={pathname === "/works/"+(work.id).toLowerCase() ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300 transition-colors"}>
+                  <a href={'works/'+(work.id).toLowerCase()+'/'} class={pathname === "/works/"+(work.id).toLowerCase()+'/' ? "underline text-orange-600" : "hover:font-bold hover:text-orange-300 transition-colors"}>
                     {work.data.title}
                   </a>
                 </li>

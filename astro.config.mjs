@@ -22,7 +22,7 @@ export default defineConfig({
   // base: '/cmhben.com/',
   site: 'https://cmhben.com',
   base:'',
-  // trailingSlash: 'always',
+  trailingSlash: 'always',
   // markdown: {
   //   remarkPlugins: [
   //     [remarkPrefixBase, { base: '/cmhben.com/' }]
