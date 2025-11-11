@@ -19,51 +19,44 @@ import cover from "../../assets/work/alien.jpg";
 <Image src={cover} alt="cover" /> 
 
 # Zero gravity spinning acid
-In the sequence the gravity was disabled so when the alien got shot the acid fly around freely.
-Initially it was flying freely but the art direction later changed it slowly form a spinning tube like tunnel, so the characters can navigate through it in the middle.
-The Fx lead generated a number of different acid shape and we placed them along the scene.
+In the sequence, gravity is disabled so when the alien is shot, the acid floats freely. The acid spins along the corridor and forms a tunnel with an open center, leaving room for characters to move through. For this article I re-created the setup and broke it down into smaller, reusable components for future reference.
 
-- placing the acid cache is more efficient for hero pieces since there are too much art direction involed
-- need a way to store the scattered points so when the upperstream setup change we keep the look for the pieces
-- using instanced acide geo helps to keep the look of the acid consistence, but lack interaction
-- using post deform with a velocity field help adding variation to the acid pieces
+<video src="alien/alien_acid_v00009.deformation.v001.webm" controls autoplay muted playsinline loop></video>
+
 
 # Generating Acid caches
 ## Reference
 ![paintball](/alien/paintball_reference_v001.png)
 <YouTube id="0fP_k6y9ows" params="start=225" />
-- Directional, like a hand reaching out
-- Fluid like motion, with surface tension stringy look
-- slow, looking dangerous, drifting through the space
+The acid should read as directional and stringy, like a hand reaching out. It moves slowly, feels dangerous, and drifts through space.
 
 ## Simulation
 ![splash source](/alien/splash_source_v003.png)
 ## Source
 ![splash source cluster](/alien/splash_source_v001.png)
-1. use mountain and transform then subtract with the orignal position for v
+1.  Deform and transform the source, then use the difference from the original position to create velocity.
 ![dopnet](/alien/splash_source_v002.png)
-2. group by cluster to create structure and randomize v by cluster to create the stringy look, set some of the v to 0 to get the stringy look. An alternative way is to use rbd fracture the source geo as source.
+2. Group points by cluster to create structure. Randomize velocity per-cluster to produce a stringy look; set some cluster velocities to zero to encourage tearing. An alternative is converting the source to geometry, fracturing it, and exploding pieces with an RBD solver to generate initial velocity.
 
 ## Solver
-most important part is the scale and surface tension setting. The overall scene scale depends on the smallest detail you want to see . So it often need to be larger than real world scale. 
-I use a top wedging setup to find the right look of the liquid
+The most important parameters are scale and surface tension. Scene scale usually needs to be larger than real world to preserve small details. I use a top wedging workflow to find suitable liquid values.
 ### solver settings
-1. Higher substeps
-2. Add id attribute
-#### Reducing holes
-3. surface oversampling helps with keeping the elongated shape continue but adding particles in the missing area
-4. particle separation helps with keeping the points in the thin film evenly distributed so there will be less holes poping 
-5. reducing the grid scale (increasing resolution) helps so there will be enough resolution for thin area
+
+1. Surface oversampling helps with keeping the stingy look by adding particles in the thin area (Example values: particles per voxel:10, surface oversampling:2, oversampling Bandwidth:1.8)
+2. Particle separation keeps points evenly distributed in thin films and reduces holes and popping.
+3. Increasing resolution (reducing grid scale) gives better support for thin features. 
+4.  Other useful changes: raise max substeps, enable vorticity and id
+
 #### Wedging setup
 ![topnet](/alien/splash_topnet_v001.png)
 1. Wedging attributes
     ![topnet](/alien/splash_topnet_v002.png)
     Wedging the velocity noise size and surface tension to find the right look
 ![wedge](/alien/splash_wedge_v001.png)
-2. OpenImageIO for adding details into the picture
+2. Use OpenImageIO for adding details into the picture
 ![wedge](/alien/splash_topnet_v003.png)
 3. Use ImageMagick to combine image for montage
-4. collect wedges
+4. Collect wedges
   ![loading wedge](/alien/collect_wedges_sop_v001.png)
   ```c
   string wedge_list[] = split(chs("wedge_list")," ");
@@ -82,19 +75,19 @@ I use a top wedging setup to find the right look of the liquid
 
 
 
-other resource for surface tension
+Other useful resource for surface tension:
 https://medium.com/@vupham_37726/houdini-flip-surface-tension-demystified-f1239da880ce
 
 
-# Vdb advect point with velosity field
-Acid where retimed and advected by a vdb field to create more directable motion
+# VDB Advection with velocity field
+While FLIP simulation provides detailed fluid animation, procedural post-sim advection gives greater control for composition and layout.
 
 ## Advection setup
-<video src="alien/alien_acid_v00009.deformation.v001.webm" controls autoplay muted playsinline loop></video>
 ### Vdb advect points
-Rotated on the source point for not rotation and rotate on the geometry mesh for some deformation
+Applying a ramp to the advected field scales the deformation by distance from the core. This creates organic motion but can over-distort if run too long. A common approach is to use two advection passes: one that moves the whole piece for large scale movement and a second per-point advection for finer deformation.
+Using a static VDB advect point to set initial positions and an animated VDB advect point for motion works well:
 ![vdb advect points](/alien/curve_vel_sop_v002.png)
-### self rotate with orient
+### Local roll
 ```c
 vector4 original_orient = p@orient;
 matrix3 m = qconvert(original_orient);
@@ -102,9 +95,9 @@ prerotate(m,radians(ch("amount")*@rotate_speed*(@Frame+ch("frame_offset"))),chv(
 p@orient = quaternion(m);
 ```
 
-#### vel field
+### velocity field
+This builds the velocity field from a curve, useful for both simulation and post-sim deformation:
 ![vel field network](/alien/curve_vel_sop_v001.png)
-
 <div> Follow, suction and orbit:</div>
 <div class="flex">
 <div class= "w-1/3"><img src="/alien/curve_vel_sop_v003.follow.png" /></div>
@@ -112,7 +105,7 @@ p@orient = quaternion(m);
 <div class= "w-1/3"><img src="/alien/curve_vel_sop_v003.orbit.png" /></div>
 </div>
 
-curve_vel_field:
+curve_vel_field wrangle:
 ``` c
 // runs on volume with vector field vel
 int prim;
@@ -145,18 +138,12 @@ v@vel *= mask;
 
 {/*
 ### Secondary elements
-Some seconary effects includes broken alien pieces, smaller acid droplets for smaller details and cached static smoke and simulated smoke emit when acid touch the wall
-- Alien pieces
-- Acid droplets
-- Acid smokes at melting metal
-
-## Sparks
-gunshot sparks matching older movies and reference footage
-*/}
+Secondary effects include broken alien pieces, small acid droplets for fine detail, and smoke that is emitted when acid contacts walls.
+### Sparks
+Gunshot sparks should match the film reference.
 
 # Notes
-- hand placing of hero acid is better than using scatter and randomly placing
-- having a setup to swap out low res version of the acid speed up, Level of detail for efficiency, use low res acid for figure out layout and motion
-- store randomized result for pickup later when using scatter always save the point attributes so you can have a version of the distribution even when  you change the upperstream
-- Building attractive looking for nice looking acid shapes
-- keep the setup simple
+- Hand placing the acid cache is more efficient for hero pieces for better art direction
+- Have a level of detail setup for faster iteration
+- Have a way to store randomized result for all versions
+*/}
